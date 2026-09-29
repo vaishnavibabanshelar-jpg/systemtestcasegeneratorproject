@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Generate structured software test cases from plain-language requirements." />
+    <title>Test Case Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">QA copilot</p>
+        <h1>Test Case Generator</h1>
+        <p>Turn a feature description into editable, export-ready manual test cases.</p>
+      </header>
+
+      <section class="panel" aria-labelledby="requirements-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="requirements-heading">Describe the feature</h2>
+            <p>Paste a user story, acceptance criteria, or a plain-language requirement.</p>
+          </div>
+        </div>
+        <form id="generator-form" novalidate>
+          <div class="field-grid">
+            <label>
+              Feature name <span class="optional">Optional</span>
+              <input id="feature" name="feature" type="text" maxlength="80" placeholder="e.g. Account registration" />
+            </label>
+            <label>
+              Test depth
+              <select id="depth" name="depth">
+                <option value="standard">Standard</option>
+                <option value="thorough">Thorough</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Requirements
+            <textarea id="requirements" name="requirements" rows="10" maxlength="10000" required placeholder="Example: A visitor can create an account with a valid email and password. Email is required. Password must be 8–64 characters. Show a clear error when registration fails."></textarea>
+          </label>
+          <p id="form-error" class="error" role="alert" hidden></p>
+          <div class="form-actions">
+            <button class="primary" type="submit">Generate test cases</button>
+            <button id="example-button" class="text-button" type="button">Use example</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="results" class="panel" aria-labelledby="results-heading" hidden>
+        <div class="section-heading results-heading">
+          <div>
+            <h2 id="results-heading">Review test cases</h2>
+            <p id="result-summary" aria-live="polite"></p>
+          </div>
+          <div class="export-actions">
+            <button id="csv-button" class="secondary" type="button">Download CSV</button>
+            <button id="xlsx-button" class="primary" type="button">Download Excel</button>
+          </div>
+        </div>
+        <p id="selection-error" class="error" role="alert" hidden></p>
+        <div id="cases" class="cases"></div>
+      </section>
+    </main>
+    <template id="case-template">
+      <article class="test-case">
+        <div class="case-topline">
+          <label class="include"><input data-field="selected" type="checkbox" checked /> Include</label>
+          <span data-role="case-id" class="case-id"></span>
+          <button data-action="delete" class="icon-button" type="button" aria-label="Delete test case">×</button>
+        </div>
+        <div class="case-grid">
+          <label>Title <input data-field="title" type="text" /></label>
+          <label>Priority <select data-field="priority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+          <label>Category <select data-field="category"><option value="positive">Positive</option><option value="negative">Negative</option><option value="boundary">Boundary</option><option value="validation">Validation</option><option value="error_handling">Error handling</option></select></label>
+        </div>
+        <label>Description <textarea data-field="description" rows="2"></textarea></label>
+        <label>Preconditions <textarea data-field="preconditions" rows="2" placeholder="One precondition per line"></textarea></label>
+        <label>Steps <textarea data-field="steps" rows="4" placeholder="One step per line"></textarea></label>
+        <label>Expected result <textarea data-field="expectedResult" rows="2"></textarea></label>
+        <label>Source requirement <textarea data-field="sourceRequirement" rows="2"></textarea></label>
+      </article>
+    </template>
+    <script src="app.js"></script>
+  </body>
+</html>
