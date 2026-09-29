@@ -1,21 +1,17 @@
-# Test Case Generator
+# Testcase Generator Agent
 
-A browser-based MVP that turns plain-language requirements into editable manual test cases and exports them to CSV or Excel.
+A Next.js web application that turns pasted or uploaded requirements into editable manual test cases plus Playwright UI/API test templates.
 
-## Run locally
+## Setup
 
-This implementation is dependency-free. Serve the repository root with any static file server, then open `index.html` in a browser. For example, if Python is available:
+1. Install dependencies: `npm install`
+2. Copy `.env.example` to `.env.local` and set `OPENAI_API_KEY`.
+3. Run `npm run dev`, then open the displayed local URL.
 
-```bash
-python3 -m http.server 8080
-```
+The OpenAI key is read exclusively by the server route. The app does not persist requirements, uploads, or generated content. It accepts TXT, Markdown, DOCX, and text-based PDF uploads up to 5 MB.
 
-The generated test cases currently use a local deterministic fallback so the application remains usable without credentials. To connect an AI model, replace `generateCases()` in `app.js` with a call to a server-side endpoint that validates the `TestCase` schema from [spec.md](spec.md). Do not expose provider credentials in browser code.
+## Checks
 
-## Included behavior
+Run `npm run typecheck` and `npm run build` before deployment.
 
-- Requirement validation and example input
-- Standard/thorough test-case generation
-- Editable test cases and export selection
-- UTF-8 CSV export and a native `.xlsx` workbook export
-- No data persistence or external network calls
+Generated automation is deliberately project-neutral. Review its assumptions and replace every `TODO` or configuration placeholder before running it against a real system.
